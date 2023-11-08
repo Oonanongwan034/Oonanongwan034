@@ -1,100 +1,21 @@
-// alert("Hello World!");
+const geolocator = new require('geolocator');
+const options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumWait: 10000,
+  desiredAccuracy: 30,
+  fallbackToIP: true,
+  addressLookup: true
+};
 
+function getLocation() {
+  geolocator.locate(options, (err, location) => {
+    if (err) return console.log(err);
 
-/*for (var i = 0; document.querySelectorAll(".drum").length ; i++ ) {
+    console.log(`Latitude: ${location.coords.latitude}, Longitude: ${location.coords.longitude}`);
 
-  document.querySelectorAll(".drum")[i].addEventListener("click",function () {
-   
-    // var audio = new Audio('sounds/tom-1.mp3');
-    // audio.play();
-
-   // console.log(this.innerHTML)
-
-   if (this.innerHTML==="w") {
-    var audio = new Audio('sounds/tom-1.mp3');
-    audio.play();
-   }
-
-
-  } );
-}*/
-
-// document.querySelector("button").addEventListener("click", handleClick);
-
-// Get all the drum buttons
-var drumButtons = document.querySelectorAll(".drum");
-
-// Add click event listeners to the drum buttons
-for (var i = 0; i < drumButtons.length; i++) {
-  drumButtons[i].addEventListener("click", function () {
-    var buttonInnerHTML = this.innerHTML;
-    playDrumSound(buttonInnerHTML);
-    buttonAnimation(buttonInnerHTML);
+    setTimeout(getLocation, 60000); // ตั้งเวลาให้ทำงานทุก 60 วินาที
   });
 }
 
-// Add a keydown event listener to the document
-document.addEventListener("keydown", function (event) {
-  var key = event.key.toLowerCase(); // Convert the key to lowercase for consistency
-  if (isDrumKey(key)) {
-    playDrumSound(key);
-    buttonAnimation(key);
-  }
-});
-
-// Function to play the drum sound
-function playDrumSound(key) {
-  switch (key) {
-    case "w":
-      var tom1 = new Audio("sounds/tom-1.mp3");
-      tom1.play();
-      break;
-
-    case "a":
-      var tom2 = new Audio("sounds/tom-2.mp3");
-      tom2.play();
-      break;
-
-    case "s":
-      var tom3 = new Audio("sounds/tom-3.mp3");
-      tom3.play();
-      break;
-
-    case "d":
-      var tom4 = new Audio("sounds/tom-4.mp3");
-      tom4.play();
-      break;
-
-    case "j":
-      var crash = new Audio("sounds/crash.mp3");
-      crash.play();
-      break;
-
-    case "k":
-      var kick = new Audio("sounds/kick-bass.mp3");
-      kick.play();
-      break;
-
-    case "l":
-      var snare = new Audio("sounds/snare.mp3");
-      snare.play();
-      break;
-
-    default:
-      console.log("Unknown key: " + key);
-  }
-}
-
-// Function to add a button press animation
-function buttonAnimation(currentKey) {
-  var activeButton = document.querySelector("." + currentKey);
-  activeButton.classList.add("pressed");
-  setTimeout(function () {
-    activeButton.classList.remove("pressed");
-  }, 100);
-}
-
-// Function to check if the pressed key is a drum key
-function isDrumKey(key) {
-  return ["w", "a", "s", "d", "j", "k", "l"].includes(key);
-}
+getLocation();

